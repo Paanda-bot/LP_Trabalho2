@@ -13,15 +13,15 @@ public class Tarefa {
     //Atributos da classe Tarefa
     private String titulo;
     private String descricao;
-    private String estado;
     private Membro responsavel;
+    private EstadoTarefa estado;
     
     //Construtor
     public Tarefa(String titulo, String descricao){
         
         this.titulo = titulo;
         this.descricao = descricao;
-        this.estado = "A fazer"; // Estado inicial da tarefa
+        this.estado = EstadoTarefa.A_FAZER;
     }
     
     //Getters e Setters para permitir que os mesmos atributos sejam modificados futuramente
@@ -45,16 +45,6 @@ public class Tarefa {
         this.descricao = descricao;
     }
     
-    public String getEstado(){
-        
-        return estado;
-    }
-    
-    public void setEstado(String novoEstado){
-        
-        this.estado = novoEstado;
-    }
-    
     public Membro getResponsavel(){
         
         return responsavel;
@@ -64,6 +54,18 @@ public class Tarefa {
         
         this.responsavel = responsavel;
     }
+    
+    public EstadoTarefa getEstado(){
+        
+        return estado;
+    }
+    
+    public void setEstado(EstadoTarefa novoEstado){
+        
+        this.estado = novoEstado;
+    }
+    
+            
     
     //Formato visual para guardar no .TXT 
     @Override

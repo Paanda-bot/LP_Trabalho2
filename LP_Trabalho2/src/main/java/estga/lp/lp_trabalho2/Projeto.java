@@ -64,14 +64,26 @@ public class Projeto {
         }
 
         public String getDescricao() {
+            
         return descricao;
+        
         }
 
-    public void setDescricao(String descricao) {
+        public void setDescricao(String descricao) {
+            
         this.descricao = descricao;
-    }
         
+        }
         
-    
-    
+        //Getters para conseguir listar as tarefas e membros da equipa na interface gráfica
+        
+        public ArrayList<Tarefa> getlistaTarefas(){
+           
+           return listaTarefas;
+        }
+        
+        public ArrayList<Membro> getEquipa(){
+            
+            return equipa;
+        }
 }

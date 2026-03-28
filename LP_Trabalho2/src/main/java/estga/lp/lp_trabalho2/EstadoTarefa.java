@@ -8,6 +8,24 @@ package estga.lp.lp_trabalho2;
  *
  * @author SebastianMazoSimoes
  */
-public class EstadoTarefa {
+public enum EstadoTarefa {
+    
+    A_FAZER("A Fazer"),
+    EM_PROGERSSO("Em Progresso"),
+    CONCLUIDO("Concluido");
+    
+    private final String estado;
+    
+    EstadoTarefa(String estado){
+        
+        this.estado = estado;
+    }
+    
+    @Override
+    public String toString(){
+        
+        return estado;
+    }
+    
     
 }
