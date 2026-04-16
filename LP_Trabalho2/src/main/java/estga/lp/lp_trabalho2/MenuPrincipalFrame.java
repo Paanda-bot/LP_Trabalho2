@@ -26,7 +26,8 @@ public class MenuPrincipalFrame extends JFrame {
 
         // --- Configuracao basica da janela ---
         setTitle("Gestor Kanban - Menu Principal");
-        setSize(400, 300);
+        setSize(800, 550);
+        setMinimumSize(new Dimension(800, 550));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // fecha o programa ao fechar esta janela
         setLocationRelativeTo(null); // centra na tela
 

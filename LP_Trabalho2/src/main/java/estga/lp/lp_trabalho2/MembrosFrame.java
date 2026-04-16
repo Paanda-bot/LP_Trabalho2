@@ -20,7 +20,8 @@ public class MembrosFrame extends JFrame {
         this.janelaAnterior = janelaAnterior;
 
         setTitle("Membros da Equipa - " + projeto.getNome());
-        setSize(400, 350);
+        setSize(800, 550);
+        setMinimumSize(new Dimension(800, 550));
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 

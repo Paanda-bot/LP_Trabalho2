@@ -28,7 +28,8 @@ public class TarefasFrame extends JFrame {
         this.janelaAnterior = janelaAnterior;
 
         setTitle("Tarefas - " + projeto.getNome());
-        setSize(700, 500);
+        setSize(800, 550);
+        setMinimumSize(new Dimension(800, 550));
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 

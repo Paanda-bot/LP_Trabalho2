@@ -26,7 +26,8 @@ public class ListaProjetosFrame extends JFrame {
         this.janelaAnterior = janelaAnterior;
 
         setTitle("Lista de Projetos");
-        setSize(500, 400);
+        setSize(800, 550);
+        setMinimumSize(new Dimension(800, 550));
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
