@@ -2,6 +2,7 @@ package estga.lp.lp_trabalho2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Janela para gerir os MEMBROS da equipa de um projeto.
@@ -30,39 +31,57 @@ public class MembrosFrame extends JFrame {
     }
 
     private void construirInterface() {
-        setLayout(new BorderLayout(5, 5));
+    setLayout(new BorderLayout(5, 5));
 
-        JLabel lblTitulo = new JLabel("  Membros da Equipa:", SwingConstants.LEFT);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 13));
-        add(lblTitulo, BorderLayout.NORTH);
+    JLabel lblTitulo = new JLabel("  Membros da Equipa:", SwingConstants.LEFT);
+    lblTitulo.setFont(new Font("Arial", Font.BOLD, 13));
+    add(lblTitulo, BorderLayout.NORTH);
 
-        modeloLista = new DefaultListModel<>();
-        JList<Membro> listaVisual = new JList<>(modeloLista);
-        add(new JScrollPane(listaVisual), BorderLayout.CENTER);
+    modeloLista = new DefaultListModel<Membro>();
+    JList<Membro> listaVisual = new JList<Membro>(modeloLista);
+    add(new JScrollPane(listaVisual), BorderLayout.CENTER);
 
-        JPanel painelBotoes = new JPanel(new FlowLayout());
+    JPanel painelBotoes = new JPanel(new FlowLayout());
 
-        JButton btnAdicionar = new JButton("Adicionar Membro");
-        btnAdicionar.addActionListener(e -> adicionarMembro());
-        painelBotoes.add(btnAdicionar);
+    // botao adicionar membro
+    JButton btnAdicionar = new JButton("Adicionar Membro");
+    btnAdicionar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            adicionarMembro();
+        }
+    });
+    painelBotoes.add(btnAdicionar);
 
-        JButton btnEliminar = new JButton("Eliminar Membro");
-        btnEliminar.addActionListener(e -> {
+    // botao eliminar membro
+    JButton btnEliminar = new JButton("Eliminar Membro");
+    btnEliminar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
             Membro selecionado = listaVisual.getSelectedValue();
             if (selecionado == null) {
-                JOptionPane.showMessageDialog(this, "Selecione um membro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(MembrosFrame.this,
+                        "Selecione um membro.", "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
             projeto.removerMembro(selecionado);
             carregarMembros();
-        });
-        painelBotoes.add(btnEliminar);
+        }
+    });
+    painelBotoes.add(btnEliminar);
 
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.addActionListener(e -> voltar());
-        painelBotoes.add(btnVoltar);
+    // botao voltar
+    JButton btnVoltar = new JButton("Voltar");
+    btnVoltar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            voltar();
+        }
+    });
+    painelBotoes.add(btnVoltar);
 
-        add(painelBotoes, BorderLayout.SOUTH);
+    add(painelBotoes, BorderLayout.SOUTH);
     }
 
     private void adicionarMembro() {

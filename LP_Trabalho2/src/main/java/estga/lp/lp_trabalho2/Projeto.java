@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Representa um projeto completo com as suas tarefas e equipa.
- * É o bloco principal do nosso Gestor Kanban.
+ * É o bloco principal do nosso Gestor do Kanban.
  */
 public class Projeto {
 

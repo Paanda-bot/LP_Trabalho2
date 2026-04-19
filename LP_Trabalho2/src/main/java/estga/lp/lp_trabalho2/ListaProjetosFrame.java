@@ -2,6 +2,7 @@ package estga.lp.lp_trabalho2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Janela que lista todos os projetos criados/carregados.
@@ -36,41 +37,71 @@ public class ListaProjetosFrame extends JFrame {
     }
 
     private void construirInterface() {
-        setLayout(new BorderLayout(10, 10));
+    setLayout(new BorderLayout(10, 10));
 
-        modeloLista = new DefaultListModel<>();
-        listaVisual = new JList<>(modeloLista);
-        listaVisual.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scroll = new JScrollPane(listaVisual);
-        add(scroll, BorderLayout.CENTER);
+    modeloLista = new DefaultListModel<Projeto>();
+    listaVisual = new JList<Projeto>(modeloLista);
+    listaVisual.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    JScrollPane scroll = new JScrollPane(listaVisual);
+    add(scroll, BorderLayout.CENTER);
 
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JButton btnEditar = new JButton("Editar");
-        btnEditar.addActionListener(e -> editarSelecionado());
-        painelBotoes.add(btnEditar);
+    // botao editar
+    JButton btnEditar = new JButton("Editar");
+    btnEditar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            editarSelecionado();
+        }
+    });
+    painelBotoes.add(btnEditar);
 
-        JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.addActionListener(e -> eliminarSelecionado());
-        painelBotoes.add(btnEliminar);
+    // botao eliminar
+    JButton btnEliminar = new JButton("Eliminar");
+    btnEliminar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            eliminarSelecionado();
+        }
+    });
+    painelBotoes.add(btnEliminar);
 
-        JButton btnGuardar = new JButton("Guardar em Ficheiro");
-        btnGuardar.addActionListener(e -> guardarSelecionado());
-        painelBotoes.add(btnGuardar);
+    // botao guardar em ficheiro
+    JButton btnGuardar = new JButton("Guardar em Ficheiro");
+    btnGuardar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            guardarSelecionado();
+        }
+    });
+    painelBotoes.add(btnGuardar);
 
-        JButton btnExportar = new JButton("Exportar TXT");
-        btnExportar.addActionListener(e -> exportarSelecionado());
-        painelBotoes.add(btnExportar);
+    // botao exportar txt
+    JButton btnExportar = new JButton("Exportar TXT");
+    btnExportar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            exportarSelecionado();
+        }
+    });
+    painelBotoes.add(btnExportar);
 
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.addActionListener(e -> voltar());
-        painelBotoes.add(btnVoltar);
+    // botao voltar
+    JButton btnVoltar = new JButton("Voltar");
+    btnVoltar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            voltar();
+        }
+    });
+    painelBotoes.add(btnVoltar);
 
-        add(painelBotoes, BorderLayout.SOUTH);
+    add(painelBotoes, BorderLayout.SOUTH);
 
-        JLabel lblTitulo = new JLabel("  Projetos disponiveis:", SwingConstants.LEFT);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 14));
-        add(lblTitulo, BorderLayout.NORTH);
+    JLabel lblTitulo = new JLabel("  Projetos disponiveis:", SwingConstants.LEFT);
+    lblTitulo.setFont(new Font("Arial", Font.BOLD, 14));
+    add(lblTitulo, BorderLayout.NORTH);
     }
 
     private void carregarProjetos() {

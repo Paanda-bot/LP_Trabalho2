@@ -2,20 +2,26 @@ package estga.lp.lp_trabalho2;
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 /**
  * Janela para gerir as TAREFAS de um projeto.
  *
- * Mostra 3 colunas (quadro Kanban):
+ * Mostra 3 colunas (tal do quadro kanban):
  *   - A Fazer
  *   - Em Progresso
  *   - Concluido
  *
  * O utilizador pode adicionar tarefas, mudar o estado delas,
- * atribuir membros e elimina-las.
+ * atribuir membros e elimina os mesmos.
  */
 public class TarefasFrame extends JFrame {
-
+    //herdando de Jframe - biblioteca do java para janelas
+    
     private Projeto projeto;
     private JFrame janelaAnterior;
 
@@ -30,83 +36,129 @@ public class TarefasFrame extends JFrame {
         setTitle("Tarefas - " + projeto.getNome());
         setSize(800, 550);
         setMinimumSize(new Dimension(800, 550));
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         construirInterface();
         atualizarKanban();
     }
 
     private void construirInterface() {
-        setLayout(new BorderLayout(5, 5));
+    setLayout(new BorderLayout(5, 5));
 
-        JPanel painelKanban = new JPanel(new GridLayout(1, 3, 10, 0));
-        painelKanban.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    JPanel painelKanban = new JPanel(new GridLayout(1, 3, 10, 0));
+    painelKanban.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        modeloAFazer = new DefaultListModel<>();
-        modeloEmProgresso = new DefaultListModel<>();
-        modeloConcluido = new DefaultListModel<>();
+    modeloAFazer = new DefaultListModel<Tarefa>();
+    modeloEmProgresso = new DefaultListModel<Tarefa>();
+    modeloConcluido = new DefaultListModel<Tarefa>();
 
-        painelKanban.add(criarColunaKanban("A Fazer", modeloAFazer, Color.decode("#fff3cd")));
-        painelKanban.add(criarColunaKanban("Em Progresso", modeloEmProgresso, Color.decode("#cce5ff")));
-        painelKanban.add(criarColunaKanban("Concluido", modeloConcluido, Color.decode("#d4edda")));
+    // cores simples com new Color em vez de Color.decode
+    painelKanban.add(criarColunaKanban("A Fazer", modeloAFazer, new Color(0xFFF3CD)));
+    painelKanban.add(criarColunaKanban("Em Progresso", modeloEmProgresso, new Color(0xCCE5FF)));
+    painelKanban.add(criarColunaKanban("Concluido", modeloConcluido, new Color(0xD4EDDA)));
 
-        add(painelKanban, BorderLayout.CENTER);
+    add(painelKanban, BorderLayout.CENTER);
 
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 8));
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 8));
 
-        JButton btnAdicionar = new JButton("+ Adicionar Tarefa");
-        btnAdicionar.addActionListener(e -> adicionarTarefa());
-        painelBotoes.add(btnAdicionar);
+    JButton btnAdicionar = new JButton("+ Adicionar Tarefa");
+    btnAdicionar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            adicionarTarefa();
+        }
+    });
+    painelBotoes.add(btnAdicionar);
 
-        JButton btnMoverAvanco = new JButton("Avancar Estado");
-        btnMoverAvanco.addActionListener(e -> moverEstadoTarefa(1));
-        painelBotoes.add(btnMoverAvanco);
+    JButton btnMoverAvanco = new JButton("Avancar Estado");
+    btnMoverAvanco.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            moverEstadoTarefa(1);
+        }
+    });
+    painelBotoes.add(btnMoverAvanco);
 
-        JButton btnMoverRecuo = new JButton("Recuar Estado");
-        btnMoverRecuo.addActionListener(e -> moverEstadoTarefa(-1));
-        painelBotoes.add(btnMoverRecuo);
+    JButton btnMoverRecuo = new JButton("Recuar Estado");
+    btnMoverRecuo.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            moverEstadoTarefa(-1);
+        }
+    });
+    painelBotoes.add(btnMoverRecuo);
 
-        JButton btnAtribuir = new JButton("Atribuir Membro");
-        btnAtribuir.addActionListener(e -> atribuirMembro());
-        painelBotoes.add(btnAtribuir);
+    JButton btnAtribuir = new JButton("Atribuir Membro");
+    btnAtribuir.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            atribuirMembro();
+        }
+    });
+    painelBotoes.add(btnAtribuir);
 
-        JButton btnEliminar = new JButton("Eliminar Tarefa");
-        btnEliminar.addActionListener(e -> eliminarTarefa());
-        painelBotoes.add(btnEliminar);
+    JButton btnEliminar = new JButton("Eliminar Tarefa");
+    btnEliminar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            eliminarTarefa();
+        }
+    });
+    painelBotoes.add(btnEliminar);
 
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.addActionListener(e -> voltar());
-        painelBotoes.add(btnVoltar);
+    JButton btnVoltar = new JButton("Voltar");
+    btnVoltar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            voltar();
+        }
+    });
+    painelBotoes.add(btnVoltar);
 
-        add(painelBotoes, BorderLayout.SOUTH);
-    }
+    add(painelBotoes, BorderLayout.SOUTH);
+}
 
     private JPanel criarColunaKanban(String titulo, DefaultListModel<Tarefa> modelo, Color cor) {
-        JPanel col = new JPanel(new BorderLayout());
-        col.setBackground(cor);
+    JPanel col = new JPanel(new BorderLayout());
+    col.setBackground(cor);
 
-        JLabel lblTitulo = new JLabel(titulo, SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 13));
-        lblTitulo.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        col.add(lblTitulo, BorderLayout.NORTH);
+    JLabel lblTitulo = new JLabel(titulo, SwingConstants.CENTER);
+    lblTitulo.setFont(new Font("Arial", Font.BOLD, 13));
+    lblTitulo.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+    col.add(lblTitulo, BorderLayout.NORTH);
 
-        JList<Tarefa> lista = new JList<>(modelo);
-        lista.setBackground(cor);
-        lista.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
-            String resp = (value.getResponsavel() != null) ? " [" + value.getResponsavel().getNome() + "]" : "";
-            JLabel lbl = new JLabel("<html>" + value.getTitulo() + "<br><small>" + value.getDescricao() + resp + "</small></html>");
+    JList<Tarefa> lista = new JList<Tarefa>(modelo);
+    lista.setBackground(cor);
+
+    // personalizar como cada tarefa aparece na lista
+    lista.setCellRenderer(new ListCellRenderer<Tarefa>() {
+        @Override
+        public Component getListCellRendererComponent(JList<? extends Tarefa> list, Tarefa value, int index, boolean isSelected, boolean cellHasFocus) {
+
+            String resp = "";
+            if (value.getResponsavel() != null) {
+                resp = " [" + value.getResponsavel().getNome() + "]";
+            }
+
+            JLabel lbl = new JLabel("<html>" + value.getTitulo()
+                    + "<br><small>" + value.getDescricao() + resp + "</small></html>");
+
             lbl.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)
+                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5)
             ));
-            if (isSelected) lbl.setBackground(Color.WHITE);
-            lbl.setOpaque(true);
-            return lbl;
-        });
 
-        col.add(new JScrollPane(lista), BorderLayout.CENTER);
-        return col;
+            if (isSelected) {
+                lbl.setBackground(Color.WHITE);
+            }
+            lbl.setOpaque(true);
+
+            return lbl;
+        }
+    });
+
+    col.add(new JScrollPane(lista), BorderLayout.CENTER);
+    return col;
     }
 
     private void atualizarKanban() {

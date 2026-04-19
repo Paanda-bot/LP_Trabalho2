@@ -2,6 +2,7 @@ package estga.lp.lp_trabalho2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Janela para CRIAR OU EDITAR um projeto.
@@ -70,29 +71,37 @@ public class CriarProjetoFrame extends JFrame {
         painel.add(scrollDesc);
         painel.add(Box.createVerticalStrut(20));
 
+        // se for edicao, preencher campos
         if (modoEdicao) {
             campNome.setText(projetoParaEditar.getNome());
             campDescricao.setText(projetoParaEditar.getDescricao());
         }
 
+        // botoes para gerir tarefas e membros (so aparecem em modo edicao)
         if (modoEdicao) {
             JPanel painelBotoesAcao = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
             painelBotoesAcao.setAlignmentX(Component.LEFT_ALIGNMENT);
 
             JButton btnTarefas = new JButton("Gerir Tarefas");
-            btnTarefas.addActionListener(e -> {
-                TarefasFrame janelaTarefas = new TarefasFrame(projetoParaEditar, this);
-                janelaTarefas.setVisible(true);
-                this.setVisible(false);
+            btnTarefas.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    TarefasFrame janelaTarefas = new TarefasFrame(projetoParaEditar, CriarProjetoFrame.this);
+                    janelaTarefas.setVisible(true);
+                    CriarProjetoFrame.this.setVisible(false);
+                }
             });
             painelBotoesAcao.add(btnTarefas);
             painelBotoesAcao.add(Box.createHorizontalStrut(10));
 
             JButton btnMembros = new JButton("Gerir Membros");
-            btnMembros.addActionListener(e -> {
-                MembrosFrame janelaMembros = new MembrosFrame(projetoParaEditar, this);
-                janelaMembros.setVisible(true);
-                this.setVisible(false);
+            btnMembros.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    MembrosFrame janelaMembros = new MembrosFrame(projetoParaEditar, CriarProjetoFrame.this);
+                    janelaMembros.setVisible(true);
+                    CriarProjetoFrame.this.setVisible(false);
+                }
             });
             painelBotoesAcao.add(btnMembros);
 
@@ -104,11 +113,21 @@ public class CriarProjetoFrame extends JFrame {
         painelBotoes.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JButton btnGuardar = new JButton("Guardar");
-        btnGuardar.addActionListener(e -> guardarProjeto(modoEdicao));
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guardarProjeto(modoEdicao);
+            }
+        });
         painelBotoes.add(btnGuardar);
 
         JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.addActionListener(e -> voltar());
+        btnVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                voltar();
+            }
+        });
         painelBotoes.add(btnVoltar);
 
         painel.add(painelBotoes);
