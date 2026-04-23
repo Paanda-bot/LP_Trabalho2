@@ -33,7 +33,11 @@ public class CriarProjetoFrame extends JFrame {
         this.projetoParaEditar = projetoParaEditar;
 
         boolean modoEdicao = (projetoParaEditar != null);
-        setTitle(modoEdicao ? "Editar Projeto" : "Criar Novo Projeto");
+        if (modoEdicao) {
+            setTitle("Editar Projeto");
+        } else {
+            setTitle("Criar Novo Projeto");
+        }
         setSize(800, 550);
         setMinimumSize(new Dimension(800, 550));
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

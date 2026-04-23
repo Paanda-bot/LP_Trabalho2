@@ -8,7 +8,7 @@ import java.awt.event.*;
 /**
  * JANELA PRINCIPAL (Menu) da aplicacao.
  *
- * Esta é a primeira janela que aparece quando o programa arranca.
+ * Esta é a primeira janela que aparece quando o programa inicia.
  * Tem 4 botões:
  *   - Criar novo projeto
  *   - Listar projetos
@@ -16,9 +16,9 @@ import java.awt.event.*;
  *   - Sair
  *
  * O GestorProjetos é passado como parametro - assim todas as janelas
- * partilham os mesmos dados (sem criar copias).
+ * partilham os mesmos dados (sem criar copias)- isso otimiza e é mais simples.
  */
-public class MenuPrincipalFrame extends JFrame {
+public class MenuPrincipalFrame extends JFrame { //Jframe é necessario para a parte visual
 
     // Referencia ao gestor central - passada para todas as outras janelas
     private GestorProjetos gestor;
@@ -62,7 +62,6 @@ public class MenuPrincipalFrame extends JFrame {
         }
     });
     painel.add(btnCriar);
-    painel.add(Box.createVerticalStrut(10));
 
     // botao listar projetos
     JButton btnLista = new JButton("Lista de Projetos");
@@ -77,29 +76,44 @@ public class MenuPrincipalFrame extends JFrame {
         }
     });
     painel.add(btnLista);
-    painel.add(Box.createVerticalStrut(10));
 
     // botao carregar de ficheiro
     JButton btnCarregar = new JButton("Carregar de Ficheiro");
-    btnCarregar.setAlignmentX(Component.CENTER_ALIGNMENT);
-    btnCarregar.setMaximumSize(new Dimension(220, 40));
-    btnCarregar.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JFileChooser chooser = new JFileChooser();
-            int resultado = chooser.showOpenDialog(MenuPrincipalFrame.this);
-            if (resultado == JFileChooser.APPROVE_OPTION) {
-                String caminho = chooser.getSelectedFile().getAbsolutePath();
+btnCarregar.setAlignmentX(Component.CENTER_ALIGNMENT);
+btnCarregar.setMaximumSize(new Dimension(220, 40));
+btnCarregar.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser chooser = new JFileChooser();
+        int resultado = chooser.showOpenDialog(MenuPrincipalFrame.this);
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            String caminho = chooser.getSelectedFile().getAbsolutePath();
+            int projetosAntes = gestor.getTotalProjetos();
+            try {
                 GestorFicheiros.carregar(caminho, gestor);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(MenuPrincipalFrame.this,
+                    "Erro ao carregar: " + ex.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int projetosDepois = gestor.getTotalProjetos();
+            if (projetosDepois > projetosAntes) {
                 JOptionPane.showMessageDialog(MenuPrincipalFrame.this,
                     "Projeto carregado! Verifique na lista.",
                     "Carregado com sucesso",
                     JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(MenuPrincipalFrame.this,
+                    "Ficheiro inválido ou formato não reconhecido.\nVerifica se é um ficheiro guardado por esta aplicação.",
+                    "Erro ao carregar",
+                    JOptionPane.ERROR_MESSAGE);
             }
         }
-    });
-    painel.add(btnCarregar);
-    painel.add(Box.createVerticalStrut(20));
+    }
+});
+painel.add(btnCarregar);
+painel.add(Box.createVerticalStrut(20));
 
     // botao sair
     JButton btnSair = new JButton("Sair");

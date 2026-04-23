@@ -9,7 +9,7 @@ public class Tarefa {
 
     private String titulo;
     private String descricao;
-    private Membro responsavel;    // pode ser null se nao tiver responsavel
+    private Membro responsavel; // pode ser null se nao tiver responsavel
     private EstadoTarefa estado;
 
     public Tarefa(String titulo, String descricao) {
@@ -36,7 +36,12 @@ public class Tarefa {
      */
     @Override
     public String toString() {
-        String resp = (responsavel == null) ? "Sem responsavel" : responsavel.toString();
+        String resp;
+        if (responsavel == null) {
+            resp = "Sem responsavel";
+        } else {
+            resp = responsavel.toString();
+        }
         return titulo + ";" + descricao + ";" + estado + ";" + resp;
     }
 }
